@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>PHOTO BUCKET</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="reset.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="background">
+
+        <div class="video">
+            <iframe src="https://www.youtube.com/embed/9ZfN87gSjvI?rel=0&amp;controls=0&amp;showinfo=0&amp;start=20&amp;autoplay=1" frameborder="0"
+                allowfullscreen></iframe>
+            <!-- <iframe src="https://www.youtube.com/embed/k4xGqY5IDBE?rel=0&amp;controls=0&amp;showinfo=0&amp;start=2&autoplay=1&loop=1"
+            frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe> -->
+        </div>
+        <div>
+            <img class="logo" src="img/IMG_1028.png" alt="">
+        </div>
+        <div class="title-wrapper">
+            <form action="index2.php" method="post">
+                <input type="text" id="title" class="title-field" name="title" placeholder="あいことばを入力してください">
+            </form>
+        </div>
+        <div class="button-wrapper">
+            <button class="start-button" id="startButton" type="button">
+                START
+            </button>
+        </div>
+
+    </div>
+
+
+
+
+
+    <script>
+        //ムービー全画面スクリプト（PC用）
+        //(1)動画の画角比率を設定します。4:3の場合はここを「4/3」に変更
+        var movieRatio = 16 / 9;
+        //(2)画像のリサイズ関数「movieAdjust()」を作成
+        function movieAdjust() {
+            var adjustWidth = $(window).width();
+            var adjustHeight = $(window).height();
+            if (adjustHeight > adjustWidth / movieRatio) {
+                adjustWidth = adjustHeight * movieRatio;
+            }
+            $('iframe').css({ width: (adjustWidth), height: (adjustWidth / movieRatio) });
+        }
+        //(3)画面リサイズ時と画面ロード時に関数movieAdjust()を実行
+        $(window).on('load resize', function () {
+            movieAdjust();
+        });
+
+        //----------------------------------------------------------------------------------
+        // titleタップ時の動作
+        //----------------------------------------------------------------------------------
+
+
+        //1.Save クリックイベント 
+        $("#startButton").on("click", function () {
+            if ($("#title").val() != "") {
+                const value = $("#title").val();
+                localStorage.setItem("title", value);
+                window.location.assign('index2.php');
+                // window.location.href = 'index2.html';
+            } else if ($("#title").val() == "") {
+                alert("合言葉を入力してください");
+            }
+        });
+
+
+    </script>
+
+</body>
+
+</html>
