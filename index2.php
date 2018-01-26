@@ -1,4 +1,8 @@
 <?php
+//ページ1から値引き継ぎ
+$title = $_POST["titleFrom1"];
+// var_dump($_POST["titleFrom1"]);
+
 //PDOでデータベース接続
 try {
     $pdo = new PDO("mysql:host=localhost;dbname=photoBucket_db;charset=utf8","root",""); 
@@ -8,7 +12,7 @@ try {
 }
 
 // 実行したいSQL文（最新順番3つ取得）
-$sql = "SELECT * FROM photo ORDER BY id ASC";
+$sql = "SELECT * FROM photo WHERE title = "."'$title'"."ORDER BY id ASC";
 
 
 //MySQLで実行したいSQLセット。プリペアーステートメントで後から値は入れる
@@ -63,6 +67,7 @@ if($flag==false){
                 <div id="fileSelect">
                     <form name="myform" action="insertDB.php" method="post" enctype="multipart/form-data" class="upload-wrapper" >
                         <input type="file" id="btnUpload" name="upfile" accept="image/jpeg" style="display:none">
+                        <input type="text" id="formTitle" name="formTitle" style="display:none" value="title">
                         <img src="img/upload.png" alt="" class="upload-icon">
                         <input type="submit" value="UPLOAD" class="upload-button" id="upload">
                     </form>
@@ -124,6 +129,7 @@ if($flag==false){
     <div class="upload-wrapper2" id="fileSelect2">
     <form name="myform2" action="insertDB.php" method="post" enctype="multipart/form-data" class="upload-wrapper2" >
             <input type="file" id="btnUpload2" name="upfile" accept="image/jpeg" style="display:none"> 
+            <input type="text" id="formTitle2" name="formTitle" style="display:none" value="title">
             <img src="img/upload.png" alt="" class="upload-icon2">
             <input type="submit" value="UPLOAD" class="upload-button2" id="upload2">
         </form>

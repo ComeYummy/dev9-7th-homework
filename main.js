@@ -62,158 +62,23 @@ function getWindowSize() {
 
 
 //----------------------------------------------------------------------------------
-// Initialize Firebase
+// 画面ロード時の動作(DOM生成後、外部リソース前)
 //----------------------------------------------------------------------------------
-
-// Initialize Firebase
-var config = {
-    apiKey: "AIzaSyB-IiwZUD1PJTbukaXEntC9wDPfy0Qt1RI",
-    authDomain: "photoshare-496df.firebaseapp.com",
-    databaseURL: "https://photoshare-496df.firebaseio.com",
-    projectId: "photoshare-496df",
-    storageBucket: "photoshare-496df.appspot.com",
-    messagingSenderId: "258081021590"
-};
-firebase.initializeApp(config);
-
-
-//ストレージのルートのリファレンスを取得
-const storageRef = firebase.storage().ref();
-//MSG送信準備 接続方法を決めている。databaseに接続する。
-// const newPostRef = firebase.database().ref();
-const newPostRef = firebase.database();
-
-//ファイルカウンター定義:ファイル数
-let fileCounter = [];
-
-//userId定義
-let userId = localStorage.getItem("title");
-console.log("userId : " + userId);
-fileCounter[userId] = 0;
-console.log("fileCounter[userId]: " + fileCounter[userId]);
-
-////1.ストレージからダウンロードする(同期処理)
-//child_added:毎回1回 //value:毎回全てのデータを取得
-newPostRef.ref(`user/${userId}`).on("child_added", function (data) {
-    // newPostRef.on("child_added", function (data) {
-    // console.log(data);ではよくわからないobjectになっている。
-    const v = data.val();//データ取得
-    // var k = data.key; //ユニークキー取得
-    console.log(v);
-    // fileCounter値引き継ぎ
-    fileCounter = v.counter;
-    console.log(`fileCounter:` + fileCounter);
-    // downloadURLの取得
-    const downloadURL = v.imageURL;
-    console.log(`fileCounter[userId]:` + fileCounter[userId], `userId:` + userId, "downloadURL:" + downloadURL);
-
-
-
-    // fileCounterが0のときは、初期時なので無視。image0.jpgがエラーとなる。
-    if (fileCounter[userId] > 0) {
-
-        //div内にimg枠を追加
-        const str = `<div>
-                        <a href="${downloadURL}" target=”_blank”>
-                            <img id="imgSample${fileCounter[userId]}" class="thumbnail" src="" alt="">
-                        </a>
-                    </div>`
-        $(".img-list").append(str);
-
-        //サムネイル画像サイズを設定
-        $(".thumbnail").css({ 'width': `${thumbnailWidth}px`, 'height': `${thumbnailHeight}px` });
-
-        // imgタグに画像を設定
-        document.getElementById(`imgSample${fileCounter[userId]}`).src = `${downloadURL}`;
-
-    }
-});
-
-
-
-
-
-//2.ストレージへアップロードする
-
-//アップロードボタンにイベントを指定
-window.onload = function () {
-    //htmlロードが完了したらアップロードボタンにイベントを設定
-    // document.getElementById("btnUpload").onchange = btnUploadChange;
-    // document.getElementById("btnUpload2").onchange = btnUploadChange;
-
+document.addEventListener('DOMContentLoaded', function () {
     //ウィンドウサイズの取得、サムネイル画像の設定
     getWindowSize();
     //タイトルの取得
     setTitle();
-
-
-};
-
-//アップロード関数
-var btnUploadChange = function (event) {
-    // if (fileCounter[userId] == null) {
-    //     fileCounter[userId] = 0;
-    //     console.log("fileCounter[userId] == null");
-    // }
-
-    //ストレージへアップロードするファイルのパスを生成する
-    const uploadRef = storageRef.child(`image${fileCounter[userId] + 1}_${userId}.jpg`);
-    const file = event.target.files[0];
-    uploadRef.put(file).then(function (snapshot) {
-        console.log('Uploaded a blob or file!');
-
-        //アップロードしたファイルを表示してみる
-        uploadRef.getDownloadURL().then(function (url) {
-            console.log(`imageUploadURL${fileCounter[userId] + 1}: ` + url);
-
-            //fileCounterをインクリメント
-            fileCounter[userId] += 1;
-            console.log("fileCounter[userId]インクリメント後: " + fileCounter[userId]);
-
-            //Date取得
-            let d = new Date();
-            let date = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
-            console.log(date);
-
-            //databaseにfileCounter保管
-            newPostRef.ref(`user/${userId}`).push({
-                date: date,
-                userId: userId,
-                counter: fileCounter,
-                imageURL: url,
-                text: ""
-            });
-
-        }).catch(function (error) {
-            // Handle any errors
-            console.log(error);
-        });
-    });
-};
-
-//----------------------------------------------------------------------------------
-// uploadボタンタップ時の動作
-//----------------------------------------------------------------------------------
+});
 
 
 
-// var fileElem = document.getElementById("btnUpload");
-
-// $("#fileSelect").on("click", function () {
-//     if (fileElem) {
-//         fileElem.click();
-//     }
-//     // e.preventDefault(); // "#" に移動するのを防ぐ
-// });
-
-// var fileElem = document.getElementById("btnUpload2");
-
-// $("#fileSelect2").on("click", function () {
-//     if (fileElem) {
-//         fileElem.click();
-//     }
-//     // e.preventDefault(); // "#" に移動するのを防ぐ
-// });
+// window.onload = function () {
+//     //ウィンドウサイズの取得、サムネイル画像の設定
+//     getWindowSize();
+//     //タイトルの取得
+//     setTitle();
+// };
 
 //----------------------------------------------------------------------------------
 // サイドメニュータップ時の動作
@@ -257,13 +122,25 @@ function setTitle() {
 // ファイル選択せずにアップロード
 //----------------------------------------------------------------------------------
 
+//見えないテキストフォームにtitleを設定
+
+$("#formTitle").val(localStorage.getItem("title"));
+console.log("title: " + $("#formTitle").val());
+$("#formTitle2").val(localStorage.getItem("title"));
+
+
+$("#upload").click(function () {
+    $("#btnUpload").click();
+    return false; // must!
+});
+
 $("#btnUpload").change(function () {
     // $(this).closest("form").submit();
     document.myform.submit();
 });
 
-$("#upload").click(function () {
-    $("#btnUpload").click();
+$("#upload2").click(function () {
+    $("#btnUpload2").click();
     return false; // must!
 });
 
@@ -272,10 +149,8 @@ $("#btnUpload2").change(function () {
     document.myform2.submit();
 });
 
-$("#upload2").click(function () {
-    $("#btnUpload2").click();
-    return false; // must!
-});
+
+
 
 //----------------------------------------------------------------------------------
 // 画像タップで拡大
