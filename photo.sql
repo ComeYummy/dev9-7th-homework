@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: 2018 年 1 月 26 日 11:55
+-- Generation Time: 2018 年 1 月 26 日 13:22
 -- サーバのバージョン： 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -111,7 +111,19 @@ INSERT INTO `photo` (`id`, `url`, `title`, `name`, `type`, `error`, `size`, `tag
 (77, 'abc/201801251738271078647578.jpg', 'abc', 'IMG_0379.jpeg', 'image/jpeg', 0, 55992, '', '', '2018-01-26 01:38:27'),
 (78, 'abc/201801251744302099163105.jpg', 'abc', 'IMG_6.jpg', 'image/jpeg', 0, 73903, '', '', '2018-01-26 01:44:30'),
 (79, 'abc/20180125174657887053902.jpg', 'abc', 'IMG_0451.jpeg', 'image/jpeg', 0, 127993, '', '', '2018-01-26 01:46:57'),
-(80, 'abc/20180125174721288777052.jpg', 'abc', 'IMG_4274.jpeg', 'image/jpeg', 0, 139852, '', '', '2018-01-26 01:47:21');
+(80, 'abc/20180125174721288777052.jpg', 'abc', 'IMG_4274.jpeg', 'image/jpeg', 0, 139852, '', '', '2018-01-26 01:47:21'),
+(81, 'test/201801261208091810907820.jpg', 'test', 'aosora-10.jpg', 'image/jpeg', 0, 130825, '', '', '2018-01-26 20:08:09'),
+(82, 'test/201801261208131273703429.jpg', 'test', 'DSC05654.jpg', 'image/jpeg', 0, 152626, '', '', '2018-01-26 20:08:13'),
+(83, 'test/201801261208181250218015.jpg', 'test', 'gari_oshare.jpg', 'image/jpeg', 0, 98949, '', '', '2018-01-26 20:08:18'),
+(84, 'test/201801261208221970781613.jpg', 'test', 'IMG_6.jpg', 'image/jpeg', 0, 73903, '', '', '2018-01-26 20:08:22'),
+(85, 'test/20180126120826972865816.jpg', 'test', 'IMG_0175.jpeg', 'image/jpeg', 0, 36773, '', '', '2018-01-26 20:08:26'),
+(86, 'test/2018012612083074458422.jpg', 'test', 'IMG_0379.jpeg', 'image/jpeg', 0, 55992, '', '', '2018-01-26 20:08:30'),
+(87, 'test/201801261208352117780767.jpg', 'test', 'IMG_0451.jpeg', 'image/jpeg', 0, 127993, '', '', '2018-01-26 20:08:35'),
+(88, 'test/20180126120840947324899.jpg', 'test', 'IMG_0707.jpeg', 'image/jpeg', 0, 158341, '', '', '2018-01-26 20:08:40'),
+(89, 'test/20180126120845765815867.jpg', 'test', 'IMG_1486.jpeg', 'image/jpeg', 0, 79744, '', '', '2018-01-26 20:08:45'),
+(90, 'test/20180126120849172156831.jpg', 'test', 'IMG_2532.jpg', 'image/jpeg', 0, 53618, '', '', '2018-01-26 20:08:49'),
+(91, 'abc/20180126131443158089497.jpg', 'abc', 'image3.jpg', 'image/jpeg', 0, 405569, '', '', '2018-01-26 21:14:43'),
+(92, 'abc/20180126131450943030387.jpg', 'abc', 'og_image.jpg', 'image/jpeg', 0, 306748, '', '', '2018-01-26 21:14:50');
 
 --
 -- Indexes for dumped tables
@@ -131,7 +143,7 @@ ALTER TABLE `photo`
 -- AUTO_INCREMENT for table `photo`
 --
 ALTER TABLE `photo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

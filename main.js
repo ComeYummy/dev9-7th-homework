@@ -110,7 +110,7 @@ var menuPanel = querySelector('.menu-panel');
 
 
 //----------------------------------------------------------------------------------
-// タイトル取得関数
+// タイトル名取得関数
 //----------------------------------------------------------------------------------
 
 function setTitle() {
@@ -177,39 +177,51 @@ $('.img-list img').on('click', function () {
     //     '</div>';
     // $('body').append(str);
 
-    var imgWidth = $(this).width();
-    var imgHeight = $(this).height();
-    var winWidth = $(window).width();
-    var winHeight = $(window).height();
+    // //オリジナル画像サイズの取得。Imageオブジェクトを利用。onloadしないと０。
+    var image = new Image();
+    var imgWidth, imgHeight;
+    image.src = $(this).attr('src');
+    console.log(image.src);
 
-    // 拡大画像のサイズ
-    var resizedHeight = winHeight * 0.7;
-    var resizedWidth = resizedHeight * imgWidth / imgHeight;
+    image.onload = function () {
+        imgWidth = image.width;
+        console.log("imgWidth: " + imgWidth);
+        imgHeight = image.height;
+        console.log("imgHeight: " + imgHeight);
 
-    // 拡大後画像幅がディスプレイ幅を超えていた場合
-    if (resizedWidth > winWidth) {
-        for (var i = 6; i > 0; i--) {
-            tmpResizedHeight = winHeight * i * 0.1;
-            tmpResizedWidth = tmpResizedHeight * imgWidth / imgHeight;
 
-            if (tmpResizedWidth < winWidth) {
-                resizedHeight = tmpResizedHeight;
-                resizedWidth = tmpResizedWidth;
-                break;
+        var winWidth = $(window).width();
+        var winHeight = $(window).height();
+
+        // 拡大画像のサイズ
+        var resizedHeight = winHeight * 0.7;
+        var resizedWidth = resizedHeight * imgWidth / imgHeight;
+
+        // 拡大後画像幅がディスプレイ幅を超えていた場合
+        if (resizedWidth > winWidth) {
+            for (var i = 6; i > 0; i--) {
+                tmpResizedHeight = winHeight * i * 0.1;
+                tmpResizedWidth = tmpResizedHeight * imgWidth / imgHeight;
+
+                if (tmpResizedWidth < winWidth) {
+                    resizedHeight = tmpResizedHeight;
+                    resizedWidth = tmpResizedWidth;
+                    break;
+                }
             }
         }
-    }
 
-    // 表示位置を中心にセット
-    $('#enlarged_image').css({
-        top: winHeight / 2 - resizedHeight / 2,
-        left: winWidth / 2 - resizedWidth / 2
-    });
+        // 表示位置を中心にセット
+        $('#enlarged_image').css({
+            top: winHeight / 2 - resizedHeight / 2,
+            left: winWidth / 2 - resizedWidth / 2
+        });
 
-    $('#enlarged_image img').css({
-        height: resizedHeight,
-        width: resizedWidth
-    });
+        $('#enlarged_image img').css({
+            height: resizedHeight,
+            width: resizedWidth
+        });
+    };
 
     $('#back, #enlarged_image, #input-form').fadeIn();
 
